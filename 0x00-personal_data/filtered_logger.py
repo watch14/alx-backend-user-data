@@ -16,8 +16,3 @@ def filter_datum(
     return re.sub(
             pattern, lambda m: f"{m.group(1)}={redaction}{separator}", message
             )
-
-
-if __name__ == "__main__":
-    import doctest
-    doctest.testmod()
