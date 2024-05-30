@@ -4,14 +4,16 @@ filtered_logger module
 """
 import re
 import logging
-from typing import List
+from typing import List, Tuple
+
+PII_FIELDS: Tuple[str, ...] = ("name", "email", "phone", "ssn", "password")
 
 
 def filter_datum(
         fields: List[str], redaction: str, message: str, separator: str
         ) -> str:
     """
-    Replaces field values in a log message with a redaction string.
+    Replace field values
     """
     pattern = f"({'|'.join(fields)})=.+?{separator}"
     return re.sub(
@@ -20,24 +22,39 @@ def filter_datum(
 
 
 class RedactingFormatter(logging.Formatter):
-    """
-    Redacting Formatter class
-    """
+    """ Redacting Formatter class """
     REDACTION = "***"
     FORMAT = "[HOLBERTON] %(name)s %(levelname)s %(asctime)-15s: %(message)s"
     SEPARATOR = ";"
 
     def __init__(self, fields: List[str]):
         """
-        Initialize the formatter with specific fields to redact.
+        Init with fields
         """
         super(RedactingFormatter, self).__init__(self.FORMAT)
         self.fields = fields
 
     def format(self, record: logging.LogRecord) -> str:
         """
-        Formats the log record, redacting specified fields.
+        Format log record
         """
         original_message = super(RedactingFormatter, self).format(record)
         return filter_datum(
                 self.fields, self.REDACTION, original_message, self.SEPARATOR)
+
+
+def get_logger() -> logging.Logger:
+    """
+    Create logger
+    """
+    logger = logging.getLogger("user_data")
+    logger.setLevel(logging.INFO)
+    logger.propagate = False
+
+    stream_handler = logging.StreamHandler()
+    formatter = RedactingFormatter(fields=list(PII_FIELDS))
+    stream_handler.setFormatter(formatter)
+
+    logger.addHandler(stream_handler)
+
+    return logger
