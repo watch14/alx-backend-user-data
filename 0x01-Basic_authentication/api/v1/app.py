@@ -36,8 +36,7 @@ def bef_req():
     """ Before request handler """
     exclu_paths = ['/api/v1/status/',
                    '/api/v1/unauthorized/',
-                   '/api/v1/forbidden/'
-                   ]
+                   '/api/v1/forbidden/']
 
     if auth.require_auth(request.path, exclu_paths):
 
