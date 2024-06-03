@@ -8,4 +8,4 @@ from .auth import Auth
 
 class BasicAuth(Auth):
     """ inherit from Auth class """
-    
+    pass
