@@ -3,6 +3,7 @@
 Auth class
 """
 
+import fnmatch
 from typing import List, TypeVar
 from flask import request
 
@@ -16,7 +17,6 @@ class Auth:
         """
         if path is None:
             return True
-
         if excluded_paths is None or len(excluded_paths) == 0:
             return True
 
@@ -30,6 +30,8 @@ class Auth:
         """ authorization_header
          that returns None - request
         """
+        if request is not None:
+            return request.headers.get("Authorization", None)
         return None
 
     def current_user(self, request=None) -> TypeVar('User'):
