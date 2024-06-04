@@ -32,8 +32,8 @@ def not_auth() -> str:
     abort 401
     """
     abort(401)
-    
-    
+
+
 @app_views.route('/forbidden/', strict_slashes=False)
 def not_alwd() -> str:
     """ Get /api/v1/forbidden
