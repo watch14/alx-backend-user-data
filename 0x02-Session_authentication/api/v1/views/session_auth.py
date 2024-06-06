@@ -32,7 +32,6 @@ def auth_session():
             return resp
     return jsonify({"error": "wrong password"}), 401
 
-
 @app_views.route('/auth_session/logout', methods=['DELETE'])
 def handle_logout():
     """ logout """
