@@ -40,6 +40,7 @@ def not_allowed(error) -> str:
 @app.before_request
 def bef_req():
     """ Before request handler """
+    setattr(request, "current_user", auth.current_user(request))
     exclu_paths = ['/api/v1/status/',
                    '/api/v1/unauthorized/',
                    '/api/v1/forbidden/']
