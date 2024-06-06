@@ -3,9 +3,11 @@
 session Auth
 """
 import os
-from flask import jsonify, request
+from flask import abort, jsonify, request
 from models.user import User
 from api.v1.views import app_views
+from api.v1.app import auth
+
 
 
 @app_views.route('/auth_session/login', methods=['POST'], strict_slashes=False)
@@ -29,3 +31,11 @@ def auth_session():
             resp.set_cookie(session_name, session_id)
             return resp
     return jsonify({"error": "wrong password"}), 401
+
+
+@app_views.route('/auth_session/logout', methods=['DELETE'])
+def handle_logout():
+    """ logout """
+    if auth.destroy_session(request):
+        return jsonify({}), 200
+    abort(404)
