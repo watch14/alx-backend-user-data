@@ -9,4 +9,5 @@ class UserSession(Base):
     """ UserSession """
 
     def __init__(self, *args: list, **kwargs: dict):
+        """ inint func """
         pass
