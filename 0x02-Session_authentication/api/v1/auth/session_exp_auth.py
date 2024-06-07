@@ -8,6 +8,7 @@ from .session_auth import SessionAuth
 class SessionExpAuth(SessionAuth):
     """Session Expiration"""
     def __init__(self):
+        """ inint fnc """
         pass
 
     def create_session(self, user_id=None):
